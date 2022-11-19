@@ -57,9 +57,9 @@ class ValidateApiJWT_Token
             ), 401);
         }
 
-        $cachedData = json_decode(Cache::get($payload['user_id']), true);
+        $loggedUserDetails = json_decode(Cache::get($payload['user_id']), true);
 
-        $request->merge(['cache_id' => $payload['user_id']]);
+        $request->merge(['cache_id' => $payload['user_id'], 'isSuperAdmin'=>($loggedUserDetails['isSuperAdmin'] == 1), 'loggedUserDetails'=>$loggedUserDetails['info']]);
 
         return $next($request);
     }

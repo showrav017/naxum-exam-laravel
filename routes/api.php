@@ -20,3 +20,17 @@ Route::get('/', function (Request $request) {
         'version' => ("Laravel v".(Illuminate\Foundation\Application::VERSION." (PHP v".PHP_VERSION.")")),
     ]);
 });
+
+Route::any('/login', 'App\Http\Controllers\AuthenticationController@login');
+Route::any('/logout', 'App\Http\Controllers\AuthenticationController@logout');
+
+
+Route::prefix('users')->middleware('validateApiJWT')->group(function () {
+    Route::post('list', 'App\Http\Controllers\UsersController@index');
+    Route::post('create', 'App\Http\Controllers\UsersController@create');
+    Route::put('update/{user_id}', 'App\Http\Controllers\UsersController@update');
+    Route::get('info/{user_id}', 'App\Http\Controllers\UsersController@show');
+    Route::post('change_my_password', 'App\Http\Controllers\UsersController@change_my_password');
+    Route::post('change_password/{user_id}', 'App\Http\Controllers\UsersController@change_password');
+    Route::delete('remove/{user_id}', 'App\Http\Controllers\UsersController@destroy');
+});
