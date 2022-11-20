@@ -10,4 +10,5 @@ interface UserRepositoryInterface
     public function createUser(array $userDetails);
     public function userNameExists($user_name):bool;
     public function updateUserPassword($user_id, array $newDetails);
+    public function updateUser($user_id, array $newDetails);
 }

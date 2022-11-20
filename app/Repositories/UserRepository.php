@@ -16,7 +16,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function getUserById($user_id)
     {
-        return Users::find($user_id);
+        return Users::where("user_id", $user_id)->selectRaw("`user_id`, `user_name`, `last_logged_at`, `updated_at`, `profile_picture_location`, `first_name`, `last_name`, `mobile_number`, `email`, `facebook_url`, `linked_in_url`, `web_site`")->first();
     }
 
     public function deleteUser($user_id)
@@ -44,8 +44,61 @@ class UserRepository implements UserRepositoryInterface
         $existingUser->save();
     }
 
+    public function updateUserProfilePicture($user_id)
+    {
+        $existingUser = Users::find($user_id);
+        $existingUser->updated_at = date("Y-m-d H:i:s");
+        $existingUser->profile_picture_location = self::uploadFile("profile_picture");
+        $existingUser->save();
+    }
+
     public function userNameExists($user_name): bool
     {
         return (Users::where("user_name", $user_name)->count() > 0);
+    }
+
+    public function updateUser($user_id, array $newDetails)
+    {
+        $existingUser = Users::find($user_id);
+
+        if(!empty($newDetails["first_name"]))
+            $existingUser->first_name = $newDetails["first_name"];
+
+        if(!empty($newDetails["last_name"]))
+            $existingUser->last_name = $newDetails["last_name"];
+
+        if(!empty($newDetails["mobile_number"]))
+            $existingUser->mobile_number = $newDetails["mobile_number"];
+
+        if(!empty($newDetails["email"]))
+            $existingUser->email = $newDetails["email"];
+
+        if(!empty($newDetails["facebook_url"]))
+            $existingUser->facebook_url = $newDetails["facebook_url"];
+
+        if(!empty($newDetails["linked_in_url"]))
+            $existingUser->linked_in_url = $newDetails["linked_in_url"];
+
+        if(!empty($newDetails["web_site"]))
+            $existingUser->web_site = $newDetails["web_site"];
+
+        $existingUser->updated_at = date("Y-m-d H:i:s");
+        $existingUser->save();
+    }
+
+
+    private function uploadFile($field_name):string
+    {
+        $fileName = "";
+
+        if(!empty($_FILES[$field_name]) && file_exists($_FILES[$field_name]["tmp_name"])) {
+            $name = time() . '-' . rand(0, 1000) . '-' . preg_replace("/[^a-z0-9\_\-\.]/i", '', $_FILES[$field_name]["name"]);
+            if(move_uploaded_file($_FILES[$field_name]["tmp_name"], public_path('profile_picture/').$name))
+            {
+                $fileName = $name;
+            }
+        }
+
+        return $fileName;
     }
 }

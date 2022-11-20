@@ -17,6 +17,16 @@ class CreateUsersTable extends Migration
             $table->string('user_id', 40)->primary();
             $table->string('user_name');
             $table->string('password');
+
+            $table->string('profile_picture_location')->nullable(true);
+            $table->string('first_name')->nullable(true);
+            $table->string('last_name')->nullable(true);
+            $table->string('mobile_number')->nullable(true);
+            $table->string('email')->nullable(true);
+            $table->string('facebook_url')->nullable(true);
+            $table->string('linked_in_url')->nullable(true);
+            $table->string('web_site')->nullable(true);
+
             $table->boolean('is_super_admin')->default(false);
             $table->dateTime('last_logged_at');
             $table->tinyInteger('removed')->default("0");

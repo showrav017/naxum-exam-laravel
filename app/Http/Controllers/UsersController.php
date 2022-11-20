@@ -35,7 +35,7 @@ class UsersController extends Controller
         if(!$request->isSuperAdmin)
             return $this->notEnoughPermissionResponse();
 
-        $validator = Validator::make(json_decode($request->getContent(), true), [
+        $validator = Validator::make($data, [
             'user_name' => 'required|string',
             'user_password' => 'required|string',
         ]);
@@ -63,14 +63,39 @@ class UsersController extends Controller
         return $this->successResponse($this->userRepository->getUserById($user_id));
     }
 
-    public function change_my_password(Request $request)
+    public function update(Request $request)
     {
         $data = json_decode($request->getContent(), true);
 
         if (empty($data)) self::badRequestResponse();
 
-        if(!$request->isSuperAdmin)
-            return $this->notEnoughPermissionResponse();
+        $validator = Validator::make($data, [
+            'email' => 'email:rfc,dns',
+            'facebook_url' => 'url',
+            'linked_in_url' => 'url',
+            'web_site' => 'url',
+        ]);
+
+        if ($validator->fails())
+            return $this->conflictResponse($validator->errors());
+
+        $this->userRepository->updateUser($request->loggedUserDetails['user_id'], $data);
+
+        return $this->successResponse();
+    }
+
+    public function my_profile(Request $request)
+    {
+        if (empty($data)) self::badRequestResponse();
+
+        return $this->successResponse($this->userRepository->getUserById($request->loggedUserDetails['user_id']));
+    }
+
+    public function change_my_password(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (empty($data)) self::badRequestResponse();
 
         $this->userRepository->updateUserPassword($request->loggedUserDetails['user_id'], $data);
 
@@ -87,6 +112,15 @@ class UsersController extends Controller
             return $this->notEnoughPermissionResponse();
 
         $this->userRepository->updateUserPassword($user_id, $data);
+
+        return $this->successResponse();
+    }
+
+    public function update_profile_picture(Request $request)
+    {
+        if (empty($data)) self::badRequestResponse();
+
+        $this->userRepository->updateUserProfilePicture($request->loggedUserDetails['user_id']);
 
         return $this->successResponse();
     }
