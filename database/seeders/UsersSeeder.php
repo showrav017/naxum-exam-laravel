@@ -25,6 +25,8 @@ class UsersSeeder extends Seeder
             $super_admin->password = Hash::make("admin");
             $super_admin->last_logged_at = date("Y-m-d H:i:s");
             $super_admin->is_super_admin = 1;
+            $super_admin->first_name = "Super";
+            $super_admin->last_name = "Admin";
             $super_admin->save();
 
             Users::factory()->count(5)->create();
