@@ -3,37 +3,68 @@
 namespace App\Repositories;
 
 use App\Interfaces\ContactsRepositoryInterface;
+use App\Models\Contacts;
 
 class ContactsRepository implements ContactsRepositoryInterface
 {
 
-    public function getAllContacts($start_from, $page_limit)
+    public function getAllContacts($created_by, $slug = "", $start_from=0, $page_limit=50)
     {
-        // TODO: Implement getAllContacts() method.
+        $contactList = Contacts::where("removed", 0)->where("created_by", $created_by)->take($page_limit)->skip($start_from);
+
+        if(!empty($slug)){
+            $contactList->where('name','LIKE','%'.$slug.'%');
+        }
+
+        return $contactList->orderBy('updated_at', 'DESC')->get();
     }
 
     public function getContactById($contact_id)
     {
-        // TODO: Implement getContactById() method.
+        return Contacts::find("contact_id", $contact_id)->first();
     }
 
     public function deleteContact($contact_id)
     {
-        // TODO: Implement deleteContact() method.
+        $existingUser = Contacts::find($contact_id);
+        $existingUser->removed = 1;
+        $existingUser->save();
     }
 
-    public function createContact(array $contactDetails)
+    public function createContact($created_by, array $contactDetails)
     {
-        // TODO: Implement createContact() method.
+        $newUser = new Contacts();
+        $newUser->contact_id = uniqid('').bin2hex(random_bytes(8));
+        $newUser->name = $contactDetails["name"];
+        $newUser->phone_number = $contactDetails["phone_number"];
+        $newUser->mobile_number = $contactDetails["mobile_number"];
+        $newUser->work_number = $contactDetails["work_number"];
+        $newUser->email = $contactDetails["email"];
+        $newUser->created_by = $created_by;
+        $newUser->created_at = date("Y-m-d H:i:s");
+        $newUser->save();
     }
 
-    public function userNameExists($contact_name): bool
+    public function updateContact($contact_id, array $newContactDetails)
     {
-        // TODO: Implement userNameExists() method.
-    }
+        $existingContact = Contacts::find($contact_id);
 
-    public function updateContactPassword($contact_id, array $newDetails)
-    {
-        // TODO: Implement updateContactPassword() method.
+        if(!empty($newContactDetails["name"]))
+            $existingContact->name = $newContactDetails["name"];
+
+        if(!empty($newContactDetails["phone_number"]))
+            $existingContact->phone_number = $newContactDetails["phone_number"];
+
+        if(!empty($newContactDetails["mobile_number"]))
+            $existingContact->mobile_number = $newContactDetails["mobile_number"];
+
+        if(!empty($newContactDetails["work_number"]))
+            $existingContact->work_number = $newContactDetails["work_number"];
+
+        if(!empty($newContactDetails["email"]))
+            $existingContact->email = $newContactDetails["email"];
+
+        $existingContact->updated_at = date("Y-m-d H:i:s");
+        $existingContact->save();
     }
 }

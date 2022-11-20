@@ -20,7 +20,7 @@ class UsersSeeder extends Seeder
         if($checkIfAnyUserExists->count() == 0)
         {
             $super_admin = new Users();
-            $super_admin->user_id = uniqid('').bin2hex(random_bytes(8));
+            $super_admin->user_id = "6379b7e377c8eae446748e3421cc7";
             $super_admin->user_name = "admin";
             $super_admin->password = Hash::make("admin");
             $super_admin->last_logged_at = date("Y-m-d H:i:s");

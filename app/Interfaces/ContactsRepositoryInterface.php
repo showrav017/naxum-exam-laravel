@@ -4,10 +4,9 @@ namespace App\Interfaces;
 
 interface ContactsRepositoryInterface
 {
-    public function getAllContacts($start_from, $page_limit);
+    public function getAllContacts($created_by, $slug, $start_from, $page_limit);
     public function getContactById($contact_id);
     public function deleteContact($contact_id);
-    public function createContact(array $contactDetails);
-    public function userNameExists($contact_name):bool;
-    public function updateContactPassword($contact_id, array $newDetails);
+    public function createContact($created_by, array $contactDetails);
+    public function updateContact($contact_id, array $newContactDetails);
 }

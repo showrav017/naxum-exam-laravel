@@ -36,3 +36,11 @@ Route::prefix('users')->middleware('validateApiJWT')->group(function () {
     Route::post('update_profile_picture', 'App\Http\Controllers\UsersController@update_profile_picture');
     Route::delete('remove/{user_id}', 'App\Http\Controllers\UsersController@destroy');
 });
+
+
+Route::prefix('contact')->middleware('validateApiJWT')->group(function () {
+    Route::post('view_all', 'App\Http\Controllers\ContactsController@index');
+    Route::post('create', 'App\Http\Controllers\ContactsController@create');
+    Route::put('update/{contact_id}', 'App\Http\Controllers\ContactsController@update');
+    Route::delete('remove/{contact_id}', 'App\Http\Controllers\ContactsController@remove');
+});

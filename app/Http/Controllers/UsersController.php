@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
-    private $loggedUserInfo;
     private UserRepositoryInterface $userRepository;
 
     public function __construct(UserRepositoryInterface $userRepository)
