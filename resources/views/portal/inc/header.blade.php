@@ -108,7 +108,7 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <li class="nav-item" id="showUserMenu" style="display: none">
-                        <a href="/users" class="nav-link">
+                        <a href="{{ env("APP_URL") }}users" class="nav-link">
                             <i class="nav-icon far fa-user"></i>
                             <p>
                                 Users
@@ -116,7 +116,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/contacts" class="nav-link">
+                        <a href="{{ env("APP_URL") }}contacts" class="nav-link">
                             <i class="nav-icon far fa-image"></i>
                             <p>
                                 Contacts
@@ -124,7 +124,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/profile" class="nav-link">
+                        <a href="{{ env("APP_URL") }}profile" class="nav-link">
                             <i class="nav-icon far fa-file-image"></i>
                             <p>
                                 Profile
@@ -132,7 +132,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="/change_password" class="nav-link">
+                        <a href="{{ env("APP_URL") }}change_password" class="nav-link">
                             <i class="nav-icon fa fa-lock"></i>
                             <p>
                                 Change Password
