@@ -72,7 +72,7 @@
         methods: {
             doLogin()
             {
-                axios.post('login', this.loginCredentials)
+                axios.post('{{ env("APP_URL") }}login', this.loginCredentials)
                     .then(function (response) {
                         window.location.href = "/";
                     })

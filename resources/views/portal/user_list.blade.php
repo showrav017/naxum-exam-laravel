@@ -73,7 +73,7 @@
                 },
             ],
             "ajax": {
-                "url": "/api/users/list",
+                "url": "{{ env("APP_URL") }}api/users/list",
                 "type": "POST",
                 'beforeSend': function (request) {
                     request.setRequestHeader("Authorization", 'Bearer <?php echo session('AuthorizationToken'); ?>');

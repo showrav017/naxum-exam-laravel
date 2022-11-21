@@ -77,7 +77,7 @@
                 },
             ],
             "ajax": {
-                "url": "/api/contact/view_all",
+                "url": "{{ env("APP_URL") }}api/contact/view_all",
                 "type": "POST",
                 'beforeSend': function (request) {
                     request.setRequestHeader("Authorization", 'Bearer <?php echo session('AuthorizationToken'); ?>');
