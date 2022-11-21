@@ -93,7 +93,7 @@
                     console.log(thrown);
                     if(xhr.status == 401)
                     {
-                        window.location.href = "/logout";
+                        window.location.href = "{{ env("APP_URL") }}logout";
                     }
                 }
             },
