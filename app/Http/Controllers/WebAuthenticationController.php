@@ -63,6 +63,9 @@ class WebAuthenticationController extends Controller
         $token = $request->session()->get('AuthorizationToken', '');
         $secret = config('constants.JWT_TOKEN_SECRET');
 
+        $request->session()->forget('AuthorizationToken');
+        $request->session()->forget('logged_cache_id');
+
         if (empty($token))
             return redirect('/login');
 
@@ -80,8 +83,6 @@ class WebAuthenticationController extends Controller
             return redirect('/login');
 
         Cache::forget($payload['user_id']);
-        $request->session()->forget('AuthorizationToken');
-        $request->session()->forget('logged_cache_id');
 
         return redirect('/login');
     }
