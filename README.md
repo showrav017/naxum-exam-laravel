@@ -1,16 +1,25 @@
-# NAXUM MOBILE APP SKILLS ASSESSMENT
-## Laravel Application
+# NAXUM MOBILE APP SKILLS ASSESSMENT (Laravel Application)
 
-Description Todo
-- Docker Explanation
-- PostMan Explanation
+## Development Tools
+- Docker
+- PostMan
+- Bootstrap Theme From (https://adminlte.io/)
+- VueJS 3
+- jQuery
 
 ## Features
-- Import a HTML file and watch it magically convert to Markdown
-- Drag and drop images (requires your Dropbox account be linked)
-- Import and save files from GitHub, Dropbox, Google Drive and One Drive
-- Drag and drop markdown and HTML files into Dillinger
-- Export documents as Markdown, HTML and PDF
+- Create Web Panel Login User
+- Update User Profile
+- View/Search/Remove Contacts added by user
+- REST api for Mobile App Connectivity
 
-## TODO
-- Enable Database Seeding
+## Docker Details
+Server: Docker Desktop 4.13.1 (90346) 
+
+### Docker Engine:  
+Version:          20.10.20  
+API version:      1.41 (minimum version 1.12)  
+Go version:       go1.18.7  
+Git commit:       03df974  
+Built:            Tue Oct 18 18:18:35 2022  
+OS/Arch:          linux/amd64 
