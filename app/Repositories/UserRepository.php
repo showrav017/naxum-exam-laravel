@@ -9,14 +9,37 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
-    public function getAllUsers($start_from = 0, $page_limit = 50)
+    public function getAllUsers($search = "", $start_from = 0, $page_limit = 50)
     {
-        return Users::where("removed", 0)->selectRaw("user_id, user_name, last_logged_at, updated_at")->take($page_limit)->skip($start_from)->get();
+        $userList = Users::where("removed", 0)->selectRaw("user_id, user_name, last_logged_at, updated_at")->take($page_limit)->skip($start_from);
+
+        if(!empty($search)) $userList->where('user_name','LIKE','%'.$search.'%');
+
+        $userList = $userList->get();
+
+        $list = array();
+
+        foreach ($userList as $user)
+        {
+            $list[] = array(
+                $user->user_name,
+                date("F d, Y h:i a", strtotime($user->last_logged_at)),
+                $user->user_id
+            );
+        }
+
+        $totalUserList = Users::where("removed", 0)->count();
+
+        return [
+            "userList"=>$list,
+            "totalUserList"=>$totalUserList,
+            "filteredUserList"=>count($list),
+        ];
     }
 
     public function getUserById($user_id)
     {
-        return Users::where("user_id", $user_id)->selectRaw("`user_id`, `user_name`, `last_logged_at`, `updated_at`, `profile_picture_location`, `first_name`, `last_name`, `mobile_number`, `email`, `facebook_url`, `linked_in_url`, `web_site`")->first();
+        return Users::where("user_id", $user_id)->selectRaw("`user_id`, `user_name`, `last_logged_at`, `updated_at`, `profile_picture_location`, `first_name`, `last_name`, `mobile_number`, `email`, `facebook_url`, `linked_in_url`, `web_site`, `is_super_admin`")->first();
     }
 
     public function deleteUser($user_id)

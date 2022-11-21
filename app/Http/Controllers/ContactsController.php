@@ -17,13 +17,14 @@ class ContactsController extends Controller
 
     public function index(Request $request)
     {
-        $data = json_decode($request->getContent(), true);
-        return $this->successResponse(
-            $this->contactRepository->getAllContacts(
-                $request->loggedUserDetails['user_id'],
-                (!empty($data["slug"])?$data["slug"]:""),
-                0,
-                50));
+        $start = $_POST["start"] ?? 0;
+        $length = $_POST["length"] ?? 50;
+        $draw = $_POST["draw"] ?? 50;
+        $search = $_POST['search']['value'] ?? "";
+
+        $contactList = $this->contactRepository->getAllContacts($request->loggedUserDetails['user_id'], $search, $start, $length);
+
+        return $this->successResponse($contactList["contactList"], $draw, $contactList["filteredContactList"], $contactList["totalContactList"]);
     }
 
     public function create(Request $request)

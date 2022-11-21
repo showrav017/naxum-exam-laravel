@@ -19,10 +19,17 @@ class UsersController extends Controller
 
     public function index(Request $request)
     {
+        $start = $_POST["start"] ?? 0;
+        $length = $_POST["length"] ?? 50;
+        $draw = $_POST["draw"] ?? 50;
+        $search = $_POST['search']['value'] ?? "";
+
         if(!$request->isSuperAdmin)
             return $this->notEnoughPermissionResponse();
 
-        return $this->successResponse($this->userRepository->getAllUsers(0, 50));
+        $userList = $this->userRepository->getAllUsers($search, $start, $length);
+
+        return $this->successResponse($userList["userList"], $draw, $userList["filteredUserList"], $userList["totalUserList"]);
     }
 
     public function create(Request $request)

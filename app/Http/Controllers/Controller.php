@@ -31,12 +31,12 @@ class Controller extends BaseController
         return $this->dpResponse(400, false, $message);
     }
 
-    public function successResponse($data = array())
+    public function successResponse($data = array(), $draw = 0, $recordsFiltered = 0, $recordsTotal = 0)
     {
-        return $this->dpResponse(200, true, array(), $data);
+        return $this->dpResponse(200, true, array(), $data, $draw, $recordsFiltered, $recordsTotal);
     }
 
-    private function dpResponse($code, $success, $message, $data = array())
+    private function dpResponse($code, $success, $message, $data = array(), $draw = 0, $recordsFiltered = 0, $recordsTotal = 0)
     {
         $apiResponse = array(
             'right_now' => date("Y-m-d H:i:s"),
@@ -46,6 +46,9 @@ class Controller extends BaseController
 
         if(!empty($data)) $apiResponse['data'] = $data;
         if(!empty($message)) $apiResponse['message'] = $message;
+        if(!empty($draw)) $apiResponse['draw'] = $draw;
+        if(!empty($recordsFiltered)) $apiResponse['recordsFiltered'] = $recordsFiltered;
+        if(!empty($recordsTotal)) $apiResponse['recordsTotal'] = $recordsTotal;
 
         return response()->json($apiResponse, $code);
     }

@@ -20,7 +20,8 @@ Route::get('/', function () {
         return redirect("/login");
     }
 
-    return view('portal/contact_list');
+    $isSuperAdmin = session('isSuperAdmin', "0");
+    return (!empty($isSuperAdmin)?view('portal/user_list'):view('portal/contact_list'));
 });
 
 Route::get('/contacts', function () {
@@ -50,6 +51,24 @@ Route::get('/login', function () {
         return redirect("/");
     }
     return view('portal/login');
+});
+
+Route::get('/profile', function () {
+    $logged_cache_id = session('logged_cache_id', "");
+    if(empty($logged_cache_id))
+    {
+        return redirect("/login");
+    }
+    return view('portal/profile');
+});
+
+Route::get('/change_password', function () {
+    $logged_cache_id = session('logged_cache_id', "");
+    if(empty($logged_cache_id))
+    {
+        return redirect("/login");
+    }
+    return view('portal/change_password');
 });
 
 Route::post('/login', 'App\Http\Controllers\WebAuthenticationController@login');

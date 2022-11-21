@@ -10,13 +10,36 @@ class ContactsRepository implements ContactsRepositoryInterface
 
     public function getAllContacts($created_by, $slug = "", $start_from=0, $page_limit=50)
     {
-        $contactList = Contacts::where("removed", 0)->where("created_by", $created_by)->take($page_limit)->skip($start_from);
+        $contactList = Contacts::where("removed", 0)->where("created_by", $created_by)->take($page_limit)->skip($start_from)->orderBy('updated_at', 'DESC');
 
         if(!empty($slug)){
             $contactList->where('name','LIKE','%'.$slug.'%');
         }
 
-        return $contactList->orderBy('updated_at', 'DESC')->get();
+        $contactList = $contactList->get();
+
+        $list = array();
+
+        foreach ($contactList as $user)
+        {
+            $list[] = array(
+                $user->name,
+                $user->mobile_number,
+                $user->phone_number,
+                $user->work_number,
+                date("F d, Y h:i a", strtotime($user->created_at)),
+                date("F d, Y h:i a", strtotime($user->updated_at)),
+                $user->contact_id
+            );
+        }
+
+        $totalContactList = Contacts::where("removed", 0)->where("created_by", $created_by)->count();
+
+        return [
+            "contactList"=>$list,
+            "totalContactList"=>$totalContactList,
+            "filteredContactList"=>count($list),
+        ];
     }
 
     public function getContactById($contact_id)

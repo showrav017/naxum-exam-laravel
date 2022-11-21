@@ -27,8 +27,43 @@
     <!-- summernote -->
     <link rel="stylesheet" href="assets/plugins/summernote/summernote-bs4.min.css">
 
+    <link rel="stylesheet" href="assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <!-- jQuery -->
+    <script src="assets/plugins/jquery/jquery.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- Bootstrap 4 -->
+    <script src="assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- ChartJS -->
+    <script src="assets/plugins/chart.js/Chart.min.js"></script>
+    <!-- Sparkline -->
+    <script src="assets/plugins/sparklines/sparkline.js"></script>
+    <!-- JQVMap -->
+    <script src="assets/plugins/jqvmap/jquery.vmap.min.js"></script>
+    <script src="assets/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="assets/plugins/jquery-knob/jquery.knob.min.js"></script>
+    <!-- daterangepicker -->
+    <script src="assets/plugins/moment/moment.min.js"></script>
+    <script src="assets/plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="assets/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+    <!-- Summernote -->
+    <script src="assets/plugins/summernote/summernote-bs4.min.js"></script>
+    <!-- overlayScrollbars -->
+    <script src="assets/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="assets/dist/js/adminlte.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -72,8 +107,8 @@
             <!-- Sidebar Menu -->
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                    <li class="nav-item">
-                        <a href="pages/calendar.html" class="nav-link">
+                    <li class="nav-item" id="showUserMenu" style="display: none">
+                        <a href="/users" class="nav-link">
                             <i class="nav-icon far fa-user"></i>
                             <p>
                                 Users
@@ -81,7 +116,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/gallery.html" class="nav-link">
+                        <a href="/contacts" class="nav-link">
                             <i class="nav-icon far fa-image"></i>
                             <p>
                                 Contacts
@@ -89,7 +124,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/gallery.html" class="nav-link">
+                        <a href="/profile" class="nav-link">
                             <i class="nav-icon far fa-file-image"></i>
                             <p>
                                 Profile
@@ -97,7 +132,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="pages/gallery.html" class="nav-link">
+                        <a href="/change_password" class="nav-link">
                             <i class="nav-icon fa fa-lock"></i>
                             <p>
                                 Change Password
@@ -135,6 +170,9 @@
                 document.getElementById("userName").innerHTML = (response.data.data.first_name +" "+ response.data.data.last_name);
                 if(response.data.data.profile_picture_location.length > 1)
                     document.getElementById("userAvater").src="/profile_picture/"+response.data.data.profile_picture_location;
+
+                if(response.data.data.is_super_admin === 0) document.getElementById("showUserMenu").style.display = "none";
+                if(response.data.data.is_super_admin === 1) document.getElementById("showUserMenu").style.display = "block";
             })
             .catch(function (error) {
                 console.log(error);

@@ -47,6 +47,7 @@ class WebAuthenticationController extends Controller
 
             $userExists->update(['last_logged_at' => date("Y-m-d H:i:s")]);
             $request->session()->put('logged_cache_id', $cacheID);
+            $request->session()->put('isSuperAdmin', $userExists->is_super_admin);
             $request->session()->put('AuthorizationToken', $token);
 
             Cache::put($cacheID, json_encode($response), config("constants.TOKEN_EXPIRATION_SECOND"));
