@@ -12,9 +12,17 @@ class UserRepository implements UserRepositoryInterface
 {
     public function getAllUsers($search = "", $start_from = 0, $page_limit = 50)
     {
-        $userList = Users::where("removed", 0)->selectRaw("user_id, user_name, last_logged_at, updated_at")->take($page_limit)->skip($start_from);
+        $userList = Users::where("removed", 0)->selectRaw("user_id, user_name, `first_name`, `last_name`, `mobile_number`, `email`, last_logged_at, updated_at, is_super_admin")->take($page_limit)->skip($start_from);
 
-        if(!empty($search)) $userList->where('user_name','LIKE','%'.$search.'%');
+        if(!empty($search)){
+            $userList->where(function($query) use ($search){
+                $query->orWhere('user_name','LIKE','%'.$search.'%');
+                $query->orWhere('first_name','LIKE','%'.$search.'%');
+                $query->orWhere('last_name','LIKE','%'.$search.'%');
+                $query->orWhere('mobile_number','LIKE','%'.$search.'%');
+                $query->orWhere('email','LIKE','%'.$search.'%');
+            });
+        }
 
         $userList = $userList->get();
 
@@ -24,8 +32,12 @@ class UserRepository implements UserRepositoryInterface
         {
             $list[] = array(
                 $user->user_name,
+                $user->first_name,
+                $user->last_name,
+                $user->mobile_number,
+                $user->email,
                 date("F d, Y h:i a", strtotime($user->last_logged_at)),
-                $user->user_id
+                ($user->is_super_admin==0?$user->user_id:'')
             );
         }
 
@@ -34,7 +46,7 @@ class UserRepository implements UserRepositoryInterface
         return [
             "userList"=>$list,
             "totalUserList"=>$totalUserList,
-            "filteredUserList"=>count($list),
+            "filteredUserList"=>$totalUserList,
         ];
     }
 
@@ -60,6 +72,10 @@ class UserRepository implements UserRepositoryInterface
         $newUser->user_id = uniqid('').bin2hex(random_bytes(8));
         $newUser->user_name = $userDetails["user_name"];
         $newUser->password = Hash::make($userDetails["user_password"]);
+        $newUser->first_name = $userDetails["first_name"];
+        $newUser->last_name = $userDetails["last_name"];
+        $newUser->mobile_number = $userDetails["mobile_number"];
+        $newUser->email = $userDetails["email"];
         $newUser->last_logged_at = date("Y-m-d H:i:s");
         $newUser->save();
     }

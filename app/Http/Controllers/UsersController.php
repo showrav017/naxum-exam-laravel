@@ -29,7 +29,7 @@ class UsersController extends Controller
 
         $userList = $this->userRepository->getAllUsers($search, $start, $length);
 
-        return $this->successResponse($userList["userList"], $draw, $userList["filteredUserList"], $userList["totalUserList"]);
+        return $this->successResponse($userList["userList"], $draw, $userList["totalUserList"], $userList["totalUserList"]);
     }
 
     public function create(Request $request)

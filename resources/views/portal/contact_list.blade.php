@@ -31,6 +31,7 @@
                             <th>Mobile Number</th>
                             <th>Phone Number</th>
                             <th>Work Number</th>
+                            <th>E-Mail</th>
                             <th>Created On</th>
                             <th>Updated On</th>
                             <th>&nbsp;</th>
@@ -53,10 +54,10 @@
 <script src="/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
 
 <script>
+    var masterTable;
     window.addEventListener('load', function() {
-        $('#example2').DataTable({
+        masterTable = $('#example2').DataTable({
             "paging": true,
-            "lengthChange": true,
             "searching": true,
             "ordering": false,
             "info": true,
@@ -66,13 +67,11 @@
             "serverSide": true,
             "columnDefs": [
                 {
-                    'targets': 6,'searchable': false, 'orderable': false,
+                    'targets': 7,'searchable': false, 'orderable': false,
                     'render': function (data, type, full, meta)
                     {
                         var info = $('<div/>').text(data).html();
-
-                        return '<button type="button" class="btn btn-primary btn-xs">Edit</button>'+
-                                '<button type="button" class="btn btn-danger btn-xs">Remove</button>';
+                        return (info.length> 0?'<button onclick="removeContact('+"'"+info+"'"+')" type="button" class="btn btn-danger btn-xs">Remove</button>':'');
                     }
                 },
             ],
@@ -104,6 +103,33 @@
             },
         });
     });
+
+
+
+    function removeContact(contactId) {
+        if(confirm("Are you sure?"))
+        {
+            axios.delete(('{{ env("APP_URL") }}api/contact/remove/'+contactId), {
+                headers: {
+                    Authorization: 'Bearer <?php echo session('AuthorizationToken'); ?>'
+                },
+            })
+                .then(function (response) {
+                    masterTable.ajax.reload();
+                })
+                .catch(function (error) {
+                    if (error.response) {
+                        switch (error.response.status)
+                        {
+                            case 401:
+                                alert("You have to Login Again");
+                                window.location.href = "{{ env("APP_URL") }}logout";
+                                break;
+                        }
+                    }
+                });
+        }
+    }
 </script>
 <style>
     .pagination{
