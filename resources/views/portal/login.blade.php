@@ -74,7 +74,7 @@
             {
                 axios.post('{{ env("APP_URL") }}login', this.loginCredentials)
                     .then(function (response) {
-                        window.location.href = "/";
+                        window.location.href = "{{ env("APP_URL") }}";
                     })
                     .catch(function (error) {
                         console.log(error);
