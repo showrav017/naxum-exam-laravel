@@ -157,11 +157,11 @@
 <script>
     function doLogout()
     {
-        if(confirm("Are you sure?")) window.location.href = "/logout";
+        if(confirm("Are you sure?")) window.location.href = "{{ env("APP_URL") }}/logout";
     }
 
     window.addEventListener('load', function() {
-        axios.get('api/users/my_profile', {
+        axios.get('{{ env("APP_URL") }}api/users/my_profile', {
                 headers: {
                     Authorization: 'Bearer <?php echo session('AuthorizationToken'); ?>'
                 },
@@ -170,7 +170,7 @@
                 document.getElementById("userName").innerHTML = (response.data.data.first_name +" "+ response.data.data.last_name);
                 if(response.data.data.profile_picture_location
                     && response.data.data.profile_picture_location.length > 1)
-                    document.getElementById("userAvater").src="/profile_picture/"+response.data.data.profile_picture_location;
+                    document.getElementById("userAvater").src="{{ env("APP_URL") }}profile_picture/"+response.data.data.profile_picture_location;
 
                 if(response.data.data.is_super_admin === 0) document.getElementById("showUserMenu").style.display = "none";
                 if(response.data.data.is_super_admin === 1) document.getElementById("showUserMenu").style.display = "block";
