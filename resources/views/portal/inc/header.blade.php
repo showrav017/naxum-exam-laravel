@@ -168,7 +168,8 @@
             })
             .then(function (response) {
                 document.getElementById("userName").innerHTML = (response.data.data.first_name +" "+ response.data.data.last_name);
-                if(response.data.data.profile_picture_location.length > 1)
+                if(response.data.data.profile_picture_location
+                    && response.data.data.profile_picture_location.length > 1)
                     document.getElementById("userAvater").src="/profile_picture/"+response.data.data.profile_picture_location;
 
                 if(response.data.data.is_super_admin === 0) document.getElementById("showUserMenu").style.display = "none";
