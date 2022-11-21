@@ -13,6 +13,7 @@ class CreateContactsTable extends Migration
      */
     public function up()
     {
+        DB::statement("SET SESSION sql_require_primary_key = 0;");
         Schema::create('contacts', function (Blueprint $table) {
             $table->string('contact_id', 40)->primary();
 

@@ -13,6 +13,7 @@ class CreateUsersTable extends Migration
      */
     public function up()
     {
+        DB::statement("SET SESSION sql_require_primary_key = 0;");
         Schema::create('users', function (Blueprint $table) {
             $table->string('user_id', 40)->primary();
             $table->string('user_name');
