@@ -47,8 +47,8 @@ class Controller extends BaseController
         if(!empty($data)) $apiResponse['data'] = $data;
         if(!empty($message)) $apiResponse['message'] = $message;
         if(!empty($draw)) $apiResponse['draw'] = $draw;
-        if(!isset($recordsFiltered)) $apiResponse['recordsFiltered'] = $recordsFiltered;
-        if(!isset($recordsTotal)) $apiResponse['recordsTotal'] = $recordsTotal;
+        if(isset($recordsFiltered)) $apiResponse['recordsFiltered'] = $recordsFiltered;
+        if(isset($recordsTotal)) $apiResponse['recordsTotal'] = $recordsTotal;
 
         return response()->json($apiResponse, $code);
     }
