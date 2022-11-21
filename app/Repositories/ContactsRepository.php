@@ -13,7 +13,13 @@ class ContactsRepository implements ContactsRepositoryInterface
         $contactList = Contacts::where("removed", 0)->where("created_by", $created_by)->take($page_limit)->skip($start_from)->orderBy('updated_at', 'DESC');
 
         if(!empty($slug)){
-            $contactList->where('name','LIKE','%'.$slug.'%');
+            $contactList->where(function($query) use ($slug){
+                $query->orWhere('name','LIKE','%'.$slug.'%');
+                $query->orWhere('mobile_number','LIKE','%'.$slug.'%');
+                $query->orWhere('work_number','LIKE','%'.$slug.'%');
+                $query->orWhere('email','LIKE','%'.$slug.'%');
+                $query->orWhere('phone_number','LIKE','%'.$slug.'%');
+            });
         }
 
         $contactList = $contactList->get();
@@ -27,6 +33,7 @@ class ContactsRepository implements ContactsRepositoryInterface
                 $user->mobile_number,
                 $user->phone_number,
                 $user->work_number,
+                $user->email,
                 date("F d, Y h:i a", strtotime($user->created_at)),
                 date("F d, Y h:i a", strtotime($user->updated_at)),
                 $user->contact_id

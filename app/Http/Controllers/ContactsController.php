@@ -24,7 +24,7 @@ class ContactsController extends Controller
 
         $contactList = $this->contactRepository->getAllContacts($request->loggedUserDetails['user_id'], $search, $start, $length);
 
-        return $this->successResponse($contactList["contactList"], $draw, $contactList["filteredContactList"], $contactList["totalContactList"]);
+        return $this->successResponse($contactList["contactList"], $draw, $contactList["totalContactList"], $contactList["totalContactList"]);
     }
 
     public function create(Request $request)
