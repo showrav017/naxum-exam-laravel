@@ -45,12 +45,12 @@
     </section>
 </div>
 
-<script src="/assets/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="{{ env("APP_URL") }}assets/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="{{ env("APP_URL") }}assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="{{ env("APP_URL") }}assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="{{ env("APP_URL") }}assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="{{ env("APP_URL") }}assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="{{ env("APP_URL") }}assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
 
 <script>
     window.addEventListener('load', function() {
