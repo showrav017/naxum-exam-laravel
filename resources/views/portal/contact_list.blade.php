@@ -97,6 +97,7 @@
                     console.log(thrown);
                     if(xhr.status == 401)
                     {
+                        alert("You have to Login Again")
                         window.location.href = "{{ env("APP_URL") }}logout";
                     }
                 }

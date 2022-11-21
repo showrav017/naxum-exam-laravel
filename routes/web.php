@@ -17,7 +17,7 @@ Route::get('/', function () {
     $logged_cache_id = session('logged_cache_id', "");
     if(empty($logged_cache_id))
     {
-        return redirect("/login");
+        return redirect(env("APP_URL")."login");
     }
 
     $isSuperAdmin = session('isSuperAdmin', "0");
@@ -28,7 +28,7 @@ Route::get('/contacts', function () {
     $logged_cache_id = session('logged_cache_id', "");
     if(empty($logged_cache_id))
     {
-        return redirect("/login");
+        return redirect(env("APP_URL")."login");
     }
 
     return view('portal/contact_list');
@@ -38,7 +38,7 @@ Route::get('/users', function () {
     $logged_cache_id = session('logged_cache_id', "");
     if(empty($logged_cache_id))
     {
-        return redirect("/login");
+        return redirect(env("APP_URL")."login");
     }
 
     return view('portal/user_list');
@@ -48,7 +48,7 @@ Route::get('/login', function () {
     $logged_cache_id = session('logged_cache_id', "");
     if(!empty($logged_cache_id))
     {
-        return redirect("/");
+        return redirect(env("APP_URL"));
     }
     return view('portal/login');
 });
@@ -57,7 +57,7 @@ Route::get('/profile', function () {
     $logged_cache_id = session('logged_cache_id', "");
     if(empty($logged_cache_id))
     {
-        return redirect("/login");
+        return redirect(env("APP_URL")."login");
     }
     return view('portal/profile');
 });
@@ -66,7 +66,7 @@ Route::get('/change_password', function () {
     $logged_cache_id = session('logged_cache_id', "");
     if(empty($logged_cache_id))
     {
-        return redirect("/login");
+        return redirect(env("APP_URL")."login");
     }
     return view('portal/change_password');
 });
