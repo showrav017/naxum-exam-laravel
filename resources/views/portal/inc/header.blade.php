@@ -86,8 +86,8 @@
     <!-- Main Sidebar Container -->
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
-        <a href="index3.html" class="brand-link">
-            <img src="{{ env("APP_URL") }}assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <a href="{{ env("APP_URL") }}" class="brand-link">
+            <img src="assets/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">N@xum Exam</span>
         </a>
 
@@ -99,7 +99,7 @@
                     <img src="{{ env("APP_URL") }}assets/dist/img/user2-160x160.jpg" id="userAvater" class="img-circle elevation-2" alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block" id="userName">User Name</a>
+                    <a href="{{ env("APP_URL") }}profile" class="d-block" id="userName">User Name</a>
                 </div>
             </div>
 
@@ -157,7 +157,7 @@
 <script>
     function doLogout()
     {
-        if(confirm("Are you sure?")) window.location.href = "{{ env("APP_URL") }}/logout";
+        if(confirm("Are you sure?")) window.location.href = "{{ env("APP_URL") }}logout";
     }
 
     window.addEventListener('load', function() {

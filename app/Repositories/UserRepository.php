@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Interfaces\UserRepositoryInterface;
+use App\Models\Contacts;
 use App\Models\Users;
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Hash;
@@ -39,7 +40,11 @@ class UserRepository implements UserRepositoryInterface
 
     public function getUserById($user_id)
     {
-        return Users::where("user_id", $user_id)->selectRaw("`user_id`, `user_name`, `last_logged_at`, `updated_at`, `profile_picture_location`, `first_name`, `last_name`, `mobile_number`, `email`, `facebook_url`, `linked_in_url`, `web_site`, `is_super_admin`")->first();
+        $user = Users::where("user_id", $user_id)->selectRaw("`user_id`, `user_name`, `last_logged_at`, `updated_at`, `profile_picture_location`, `first_name`, `last_name`, `mobile_number`, `email`, `facebook_url`, `linked_in_url`, `web_site`, `is_super_admin`")->first();
+
+        $user->{"totalUserContacts"} = Contacts::where("removed", 0)->where("created_by", $user_id)->count();
+
+        return $user;
     }
 
     public function deleteUser($user_id)
