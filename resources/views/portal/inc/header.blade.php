@@ -161,7 +161,7 @@
     }
 
     window.addEventListener('load', function() {
-        axios.get('api/users/my_profile', {
+        axios.get('{{ env("APP_URL") }}api/users/my_profile', {
                 headers: {
                     Authorization: 'Bearer <?php echo session('AuthorizationToken'); ?>'
                 },
